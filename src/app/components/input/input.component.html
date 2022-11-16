@@ -1,0 +1,11 @@
+<form (ngSubmit)="onSubmit()" #f="ngForm">
+  <input placeholder="enter name" [ngModel]="'bag'" required name="itemName" />
+  <input
+    placeholder="enter price"
+    [ngModel]="5"
+    required
+    name="itemPrice"
+    type="number"
+  />
+  <button [disabled]="!f.valid" type="submit">add item</button>
+</form>
