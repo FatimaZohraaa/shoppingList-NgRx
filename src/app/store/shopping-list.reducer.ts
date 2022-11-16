@@ -9,19 +9,20 @@ export interface AppState {
   shoppingList: State;
 }
 
-const initialItems = [
+const initialItems: State['items'] = [
   { name: 'bag', price: 5 },
   { name: 'shoes', price: 8 },
   { name: 'shirt', price: 7 },
   { name: 'dress', price: 5 },
 ];
-const initialState = {
+
+const initialState: State = {
   items: initialItems,
   sum: initialItems.reduce((prev, next) => prev + next.price, 0),
 };
 
 export function shoppingListReducer(
-  state = initialState,
+  state: State = initialState,
   action: itemsListActions.itemsListActions
 ) {
   switch (action.type) {

@@ -14,10 +14,10 @@ import { NgForm } from '@angular/forms';
 export class OutputComponent implements OnInit {
   @ViewChild('editForm') editForm: NgForm;
 
-  subscription: Subscription;
-  itemsList = [];
+  private subscription: Subscription;
+  itemsList: { name: string; price: number }[] = [];
   sum: number;
-  editedIndex: number = null;
+  private editedIndex: number = null;
 
   constructor(private store: Store<fromShoppingList.AppState>) {}
 
@@ -31,7 +31,6 @@ export class OutputComponent implements OnInit {
   }
 
   onDelete(index: number) {
-    console.log(index);
     this.store.dispatch(new itemsListActions.DeleteItem(index));
   }
   onClearAll() {
