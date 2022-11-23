@@ -1,7 +1,7 @@
 import * as itemsListActions from './shopping-list.actions';
 
 export interface State {
-  items: { name: string; price: number }[];
+  items: { name: string; price: number; id: number }[];
   sum: number;
 }
 
@@ -10,10 +10,10 @@ export interface AppState {
 }
 
 const initialItems: State['items'] = [
-  { name: 'bag', price: 5 },
-  { name: 'shoes', price: 8 },
-  { name: 'shirt', price: 7 },
-  { name: 'dress', price: 5 },
+  { name: 'bag', price: 5, id: Math.random() },
+  { name: 'shoes', price: 8, id: Math.random() },
+  { name: 'shirt', price: 7, id: Math.random() },
+  { name: 'dress', price: 5, id: Math.random() },
 ];
 
 const initialState: State = {
@@ -26,6 +26,12 @@ export function shoppingListReducer(
   action: itemsListActions.itemsListActions
 ) {
   switch (action.type) {
+    case itemsListActions.GET_ITEMS:
+      return {
+        ...state,
+        items: [...action.payload],
+      };
+
     case itemsListActions.ADD_ITEM:
       return {
         ...state,
@@ -35,17 +41,21 @@ export function shoppingListReducer(
     case itemsListActions.DELETE_ITEM:
       return {
         ...state,
-        items: state.items.filter((item, index) => index !== action.payload),
+        items: state.items.filter((item) => item.id !== action.payload),
       };
 
     case itemsListActions.EDIT_ITEM:
       const upgradedItem = {
         name: action.payload.name,
         price: action.payload.price,
+        id: action.payload.id,
       };
       const upgradedItems = [...state.items];
-      upgradedItems[action.payload.index] = upgradedItem;
-
+      upgradedItems.forEach((el, index) => {
+        if (el.id == action.payload.id) {
+          upgradedItems[index] = upgradedItem;
+        }
+      });
       return {
         ...state,
         items: upgradedItems,
