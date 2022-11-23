@@ -5,6 +5,7 @@ import * as fromShoppingList from '../../store/shopping-list.reducer';
 import { Subscription } from 'rxjs';
 import * as itemsListActions from '../../store/shopping-list.actions';
 import { NgForm } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-output',
@@ -18,8 +19,12 @@ export class OutputComponent implements OnInit {
   itemsList: { name: string; price: number; id: number }[] = [];
   sum: number;
   private editedId: number = null;
+  postsId: number[] = [];
 
-  constructor(private store: Store<fromShoppingList.AppState>) {}
+  constructor(
+    private store: Store<fromShoppingList.AppState>,
+    private http: HttpClient
+  ) {}
 
   ngOnInit(): void {
     this.store.dispatch(new itemsListActions.get_items_start());
@@ -37,8 +42,15 @@ export class OutputComponent implements OnInit {
     this.store.dispatch(new itemsListActions.delete_item_start(id));
   }
   onClearAll() {
-    let postsId = this.itemsList.map((el) => el.id);
-    this.store.dispatch(new itemsListActions.clear_all_start(postsId));
+    this.postsId = this.itemsList.map((el) => el.id);
+
+    this.postsId.forEach((id) => {
+      this.http
+        .delete(`http://localhost:3000/items/${id}`)
+        .subscribe((state) => {
+          this.store.dispatch(new itemsListActions.ClearAll());
+        });
+    });
   }
 
   onCalculateSum() {
