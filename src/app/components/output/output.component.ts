@@ -15,13 +15,15 @@ export class OutputComponent implements OnInit {
   @ViewChild('editForm') editForm: NgForm;
 
   private subscription: Subscription;
-  itemsList: { name: string; price: number }[] = [];
+  itemsList: { name: string; price: number; id: number }[] = [];
   sum: number;
-  private editedIndex: number = null;
+  private editedId: number = null;
 
   constructor(private store: Store<fromShoppingList.AppState>) {}
 
   ngOnInit(): void {
+    this.store.dispatch(new itemsListActions.get_items_start());
+
     this.subscription = this.store
       .select('shoppingList')
       .subscribe((stateData) => {
@@ -30,11 +32,13 @@ export class OutputComponent implements OnInit {
       });
   }
 
-  onDelete(index: number) {
-    this.store.dispatch(new itemsListActions.DeleteItem(index));
+  onDelete(id: number) {
+    console.log(id);
+    this.store.dispatch(new itemsListActions.delete_item_start(id));
   }
   onClearAll() {
-    this.store.dispatch(new itemsListActions.ClearAll());
+    let postsId = this.itemsList.map((el) => el.id);
+    this.store.dispatch(new itemsListActions.clear_all_start(postsId));
   }
 
   onCalculateSum() {
@@ -44,25 +48,25 @@ export class OutputComponent implements OnInit {
     this.subscription.unsubscribe();
   }
 
-  onEdit(index: number) {
-    this.editedIndex = index;
+  onEdit(id: number) {
+    this.editedId = id;
   }
 
-  editMode(i: number) {
-    return i == this.editedIndex;
+  editMode(id: number) {
+    return id == this.editedId;
   }
-  onSubmit(i: number) {
+  onSubmit(id: number) {
     this.store.dispatch(
-      new itemsListActions.EditItem({
+      new itemsListActions.edit_item_start({
         name: this.editForm.controls.name.value,
         price: parseInt(this.editForm.controls.price.value),
-        index: i,
+        id: this.editedId,
       })
     );
-    this.editedIndex = null;
+    this.editedId = null;
   }
   onCancel() {
-    this.editedIndex = null;
+    this.editedId = null;
   }
 
   sumBackgroundColor() {

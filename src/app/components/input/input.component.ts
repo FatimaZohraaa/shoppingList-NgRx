@@ -10,7 +10,7 @@ import * as itemsListActions from '../../store/shopping-list.actions';
 })
 export class InputComponent implements OnInit {
   @ViewChild('f') itemForm: NgForm;
-  newItem: { name: string; price: number };
+  newItem: { name: string; price: number; id: number };
   constructor(
     private store: Store<{ shoppingList: { name: string; price: number }[] }>
   ) {}
@@ -21,7 +21,8 @@ export class InputComponent implements OnInit {
     this.newItem = {
       name: this.itemForm.controls.itemName.value,
       price: parseInt(this.itemForm.controls.itemPrice.value),
+      id: Math.random(),
     };
-    this.store.dispatch(new itemsListActions.AddItem(this.newItem));
+    this.store.dispatch(new itemsListActions.add_item_start(this.newItem));
   }
 }

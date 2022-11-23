@@ -1,17 +1,17 @@
 <ul>
-  <li *ngFor="let item of itemsList; let i = index">
-    <div *ngIf="editMode(i)">
-      <form (ngSubmit)="onSubmit(i)" #editForm="ngForm">
+  <li *ngFor="let item of itemsList">
+    <div *ngIf="editMode(item.id)">
+      <form (ngSubmit)="onSubmit(item.id)" #editForm="ngForm">
         <input [ngModel]="item.name" name="name" />
         <input [ngModel]="item.price" name="price" />
         <button type="submit">Save</button>
         <button type="button" (click)="onCancel()">Cancel</button>
       </form>
     </div>
-    <div *ngIf="!editMode(i)">
+    <div *ngIf="!editMode(item.id)">
       {{ item.name }} : {{ item.price }}
-      <button (click)="onDelete(i)">Delete</button>
-      <button (click)="onEdit(i)">Edit</button>
+      <button (click)="onDelete(item.id)">Delete</button>
+      <button (click)="onEdit(item.id)">Edit</button>
     </div>
   </li>
 </ul>
