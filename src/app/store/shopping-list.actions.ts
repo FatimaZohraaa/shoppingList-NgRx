@@ -23,17 +23,27 @@ export const CLEAR_ALL_FAIL = '[shopping-list] clear all fail';
 export const CALCULATE_SUM = '[shopping-list] calculate sum';
 
 /////////////////////////////////////////////////////////
+export type Item = { name: string; price: number; id: number };
 
+/**
+ * Adds the new item item to the list in the ngrx store
+ */
 export class AddItem implements Action {
   readonly type = ADD_ITEM;
-  constructor(public payload: { name: string; price: number; id: number }) {}
+  constructor(public payload: Item) {}
 }
 
+/**
+ * Sends the new item to the addItem effect to add to the server
+ */
 export class add_item_start implements Action {
   readonly type = ADD_ITEM_START;
-  constructor(public payload: { name: string; price: number; id: number }) {}
+  constructor(public payload: Item) {}
 }
 
+/**
+ * Returns the error from the http post request
+ */
 export class add_item_fail implements Action {
   readonly type = ADD_ITEM_FAIL;
   constructor(public payload: string) {}
@@ -41,16 +51,26 @@ export class add_item_fail implements Action {
 
 /////////////////////////////////////////////////////////
 
+/**
+ * Deletes an item from the ngrx store
+ */
 export class DeleteItem implements Action {
   readonly type = DELETE_ITEM;
   constructor(public payload: number) {}
 }
 
+/**
+ * Sends the ID of the item to delete to the deleteItem effect to delete from the server
+ */
 export class delete_item_start implements Action {
   readonly type = DELETE_ITEM_START;
   constructor(public payload: number) {}
 }
 
+/**
+ * Returns the error from the http delete request 
+
+ */
 export class delete_item_fail implements Action {
   readonly type = DELETE_ITEM_FAIL;
   constructor(public payload: string) {}
@@ -58,16 +78,25 @@ export class delete_item_fail implements Action {
 
 /////////////////////////////////////////////////////////
 
+/**
+ * Edits the item in the ngrx store
+ */
 export class EditItem implements Action {
   readonly type = EDIT_ITEM;
-  constructor(public payload: { name: string; price: number; id: number }) {}
+  constructor(public payload: Item) {}
 }
 
+/**
+ * Sends the item to edit to the editItem effect to edit on the server
+ */
 export class edit_item_start implements Action {
   readonly type = EDIT_ITEM_START;
-  constructor(public payload: { name: string; price: number; id: number }) {}
+  constructor(public payload: Item) {}
 }
 
+/**
+ * Returns the error from the http patch request
+ */
 export class edit_item_fail implements Action {
   readonly type = EDIT_ITEM_FAIL;
   constructor(public payload: string) {}
@@ -75,16 +104,25 @@ export class edit_item_fail implements Action {
 
 /////////////////////////////////////////////////////////
 
+/**
+ * Sets the itemsList in the ngrx store to the list of items obtained from the server
+ */
 export class GetItems implements Action {
   readonly type = GET_ITEMS;
-  constructor(public payload: { name: string; price: number; id: number }[]) {}
+  constructor(public payload: Item[]) {}
 }
 
+/**
+ * Gets all items from the server via the getItems effect
+ */
 export class get_items_start implements Action {
   readonly type = GET_ITEMS_START;
-  // constructor(public payload: { name: string; price: number; id: number }[]) {}
+  // constructor(public payload: Item[]) {}
 }
 
+/**
+ * Returns the error from the http get request
+ */
 export class get_items_fail implements Action {
   readonly type = GET_ITEMS_FAIL;
   constructor(public payload: string) {}
@@ -92,32 +130,30 @@ export class get_items_fail implements Action {
 
 /////////////////////////////////////////////////////////
 
+/**
+ * Clears all items from the list in the ngrx store
+ */
 export class ClearAll implements Action {
   readonly type = CLEAR_ALL;
 }
 
-export class clear_all_start implements Action {
-  readonly type = CLEAR_ALL_START;
-  constructor(public payload: number[]) {}
-}
+// export class clear_all_start implements Action {
+//   readonly type = CLEAR_ALL_START;
+//   constructor(public payload: number[]) {}
+// }
 
-export class clear_all_fail implements Action {
-  readonly type = CLEAR_ALL_FAIL;
-  constructor(public payload: string) {}
-}
+// export class clear_all_fail implements Action {
+//   readonly type = CLEAR_ALL_FAIL;
+//   constructor(public payload: string) {}
+// }
 
 /////////////////////////////////////////////////////////
-
-export class CalculateSum implements Action {
-  readonly type = CALCULATE_SUM;
-}
 
 export type itemsListActions =
   | AddItem
   | DeleteItem
   | EditItem
   | ClearAll
-  | CalculateSum
   | add_item_start
   | add_item_fail
   | delete_item_start
@@ -126,6 +162,6 @@ export type itemsListActions =
   | edit_item_fail
   | GetItems
   | get_items_start
-  | get_items_fail
-  | clear_all_start
-  | clear_all_fail;
+  | get_items_fail;
+// | clear_all_start
+// | clear_all_fail;

@@ -12,6 +12,9 @@ export interface ShoppingListData {
 
 @Injectable()
 export class ShoppingListEffect {
+  /**
+   * Sends an http post request to add a new item to the server
+   */
   @Effect()
   addItem = this.actions$.pipe(
     ofType(ShoppingListActions.ADD_ITEM_START),
@@ -38,6 +41,9 @@ export class ShoppingListEffect {
     })
   );
 
+  /**
+   * Sends an http delete request to delete an item from the server
+   */
   @Effect()
   deleteItem = this.actions$.pipe(
     ofType(ShoppingListActions.DELETE_ITEM_START),
@@ -58,6 +64,9 @@ export class ShoppingListEffect {
     })
   );
 
+  /**
+   * Sends an http patch request to edit an item on the server
+   */
   @Effect()
   editItem = this.actions$.pipe(
     ofType(ShoppingListActions.EDIT_ITEM_START),
@@ -82,6 +91,9 @@ export class ShoppingListEffect {
     })
   );
 
+  /**
+   * Sends an http get request to get the list of items from the server
+   */
   @Effect()
   getItems = this.actions$.pipe(
     ofType(ShoppingListActions.GET_ITEMS_START),

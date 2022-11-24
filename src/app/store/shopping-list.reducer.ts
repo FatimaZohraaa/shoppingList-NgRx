@@ -1,7 +1,7 @@
 import * as itemsListActions from './shopping-list.actions';
 
 export interface State {
-  items: { name: string; price: number; id: number }[];
+  items: itemsListActions.Item[];
   sum: number;
 }
 
@@ -26,24 +26,36 @@ export function shoppingListReducer(
   action: itemsListActions.itemsListActions
 ) {
   switch (action.type) {
+    /**
+     * Gets items
+     */
     case itemsListActions.GET_ITEMS:
       return {
         ...state,
         items: [...action.payload],
       };
 
+    /**
+     * Addes an item
+     */
     case itemsListActions.ADD_ITEM:
       return {
         ...state,
         items: [...state.items, action.payload],
       };
 
+    /**
+     * Deletes an item
+     */
     case itemsListActions.DELETE_ITEM:
       return {
         ...state,
         items: state.items.filter((item) => item.id !== action.payload),
       };
 
+    /**
+     * Edits an item
+     */
     case itemsListActions.EDIT_ITEM:
       const upgradedItem = {
         name: action.payload.name,
@@ -61,17 +73,15 @@ export function shoppingListReducer(
         items: upgradedItems,
       };
 
+    /**
+     * Clears all items
+     */
     case itemsListActions.CLEAR_ALL:
       return {
         ...state,
         items: [],
       };
 
-    case itemsListActions.CALCULATE_SUM:
-      return {
-        ...state,
-        sum: state.items.reduce((prev, next) => prev + next.price, 0),
-      };
     default:
       return state;
   }

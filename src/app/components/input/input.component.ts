@@ -10,13 +10,17 @@ import * as itemsListActions from '../../store/shopping-list.actions';
 })
 export class InputComponent implements OnInit {
   @ViewChild('f') itemForm: NgForm;
-  newItem: { name: string; price: number; id: number };
+  private newItem: itemsListActions.Item;
+
   constructor(
-    private store: Store<{ shoppingList: { name: string; price: number }[] }>
+    private store: Store<{ shoppingList: itemsListActions.Item[] }>
   ) {}
 
   ngOnInit(): void {}
 
+  /**
+   * saves the new item on the server
+   */
   onSubmit() {
     this.newItem = {
       name: this.itemForm.controls.itemName.value,
