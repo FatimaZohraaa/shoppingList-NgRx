@@ -22,6 +22,7 @@ export const CLEAR_ALL_FAIL = '[shopping-list] clear all fail';
 
 export const CALCULATE_SUM = '[shopping-list] calculate sum';
 
+export const CLEAR_ERROR_MESSAGE = '[shopping-list] clear error message';
 /////////////////////////////////////////////////////////
 export type Item = { name: string; price: number; id: number };
 
@@ -148,6 +149,9 @@ export class ClearAll implements Action {
 // }
 
 /////////////////////////////////////////////////////////
+export class ClearErrorMessage implements Action {
+  readonly type = CLEAR_ERROR_MESSAGE;
+}
 
 export type itemsListActions =
   | AddItem
@@ -162,6 +166,8 @@ export type itemsListActions =
   | edit_item_fail
   | GetItems
   | get_items_start
-  | get_items_fail;
+  | get_items_fail
+  | ClearErrorMessage;
+
 // | clear_all_start
 // | clear_all_fail;

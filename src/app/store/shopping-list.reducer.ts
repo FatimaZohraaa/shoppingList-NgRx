@@ -3,6 +3,7 @@ import * as itemsListActions from './shopping-list.actions';
 export interface State {
   items: itemsListActions.Item[];
   sum: number;
+  errorMessage: string;
 }
 
 export interface AppState {
@@ -19,6 +20,7 @@ const initialItems: State['items'] = [
 const initialState: State = {
   items: initialItems,
   sum: initialItems.reduce((prev, next) => prev + next.price, 0),
+  errorMessage: '',
 };
 
 export function shoppingListReducer(
@@ -82,6 +84,20 @@ export function shoppingListReducer(
         items: [],
       };
 
+    case itemsListActions.GET_ITEMS_FAIL:
+    case itemsListActions.DELETE_ITEM_FAIL:
+    case itemsListActions.EDIT_ITEM_FAIL:
+    case itemsListActions.ADD_ITEM_FAIL:
+      return {
+        ...state,
+        errorMessage: action.payload,
+      };
+
+    case itemsListActions.CLEAR_ERROR_MESSAGE:
+      return {
+        ...state,
+        errorMessage: '',
+      };
     default:
       return state;
   }
