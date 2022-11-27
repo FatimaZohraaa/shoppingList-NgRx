@@ -153,6 +153,10 @@ export class ClearErrorMessage implements Action {
   readonly type = CLEAR_ERROR_MESSAGE;
 }
 
+export class Noop implements Action {
+  readonly type = 'noop';
+}
+
 export type itemsListActions =
   | AddItem
   | DeleteItem
@@ -167,7 +171,8 @@ export type itemsListActions =
   | GetItems
   | get_items_start
   | get_items_fail
-  | ClearErrorMessage;
+  | ClearErrorMessage
+  | Noop;
 
 // | clear_all_start
 // | clear_all_fail;

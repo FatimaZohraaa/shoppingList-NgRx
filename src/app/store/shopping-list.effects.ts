@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Actions, ofType, Effect } from '@ngrx/effects';
-import { switchMap, catchError, map, tap } from 'rxjs/operators';
+import { Actions, ofType } from '@ngrx/effects';
+import { switchMap, catchError, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import * as ShoppingListActions from './shopping-list.actions';
 import { createEffect } from '@ngrx/effects';

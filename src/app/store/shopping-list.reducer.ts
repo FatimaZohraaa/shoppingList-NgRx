@@ -1,7 +1,10 @@
 import * as itemsListActions from './shopping-list.actions';
 
+/**
+ * Type of state
+ */
 export interface State {
-  items: itemsListActions.Item[];
+  items: { name: string; price: number; id: number }[];
   sum: number;
   errorMessage: string;
 }
@@ -10,18 +13,30 @@ export interface AppState {
   shoppingList: State;
 }
 
-const initialItems: State['items'] = [
+/**
+ * Initial state
+ */
+export const initialItems: State['items'] = [
   { name: 'bag', price: 5, id: Math.random() },
   { name: 'shoes', price: 8, id: Math.random() },
   { name: 'shirt', price: 7, id: Math.random() },
   { name: 'dress', price: 5, id: Math.random() },
 ];
 
-const initialState: State = {
+export const initialState: State = {
   items: initialItems,
   sum: initialItems.reduce((prev, next) => prev + next.price, 0),
   errorMessage: '',
 };
+
+/////////////////////////////////////////////////
+
+/**
+ * Reducer function
+ * @param state
+ * @param action
+ * @returns
+ */
 
 export function shoppingListReducer(
   state: State = initialState,
@@ -84,6 +99,9 @@ export function shoppingListReducer(
         items: [],
       };
 
+    /**
+     * Adds an error message when http requests in effects fail
+     */
     case itemsListActions.GET_ITEMS_FAIL:
     case itemsListActions.DELETE_ITEM_FAIL:
     case itemsListActions.EDIT_ITEM_FAIL:
@@ -93,11 +111,18 @@ export function shoppingListReducer(
         errorMessage: action.payload,
       };
 
+    /**
+     * clears the error message
+     */
     case itemsListActions.CLEAR_ERROR_MESSAGE:
       return {
         ...state,
         errorMessage: '',
       };
+
+    /**
+     * for initialization: returns the initial state
+     */
     default:
       return state;
   }
